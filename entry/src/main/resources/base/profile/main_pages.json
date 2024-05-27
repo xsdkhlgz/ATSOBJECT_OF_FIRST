@@ -1,0 +1,8 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/Page_of_First",
+    "pages/WelcomePage",
+    "pages/ItemIndex"
+  ]
+}
