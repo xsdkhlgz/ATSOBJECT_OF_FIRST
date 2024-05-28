@@ -9,7 +9,7 @@ import ItemCategory from '../../viewmodel/ItemCategory'
 @Component
 export default struct ItemList {
 
-  showPanel: () => void
+  showPanel: (item:RecordItem) => void
   //声明一个状态变量，因为传过来的参数主要取决于用户的需求
   @State isFood:boolean = true
 
@@ -26,6 +26,7 @@ export default struct ItemList {
         .tabBar(group.type.name)
       })
     }
+    .barMode(BarMode.Scrollable)
     .width('94%')
     .height('100%')
 
@@ -54,7 +55,7 @@ export default struct ItemList {
           .padding(6)
         }
         .onClick(()=>{
-          this.showPanel()
+          this.showPanel(item)
         })
       })
     }

@@ -69,7 +69,7 @@ class ItemModel{
     // 2.创建空的分组
     let groups = categories.map(itemCategory => new GroupInfo(itemCategory,[]))
     // 3.遍历记录项列表，将食物添加到对应的分组
-    items.forEach(food =>groups[food.categoryId].items.push(food))
+    items.forEach(item =>groups[item.categoryId].items.push(item))
     // 4.返回结果
     return groups
   }
