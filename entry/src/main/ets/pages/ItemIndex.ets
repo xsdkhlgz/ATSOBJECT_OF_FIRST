@@ -4,6 +4,7 @@ import ItemCard from '../view/item/ItemCard'
 import ItemList from '../view/item/ItemList'
 import ItemPanelHeader from '../view/item/ItemPanelHeader'
 import NumberKeyboard from '../view/item/NumberKeyboard'
+import RecordItem from '../viewmodel/RecordItem'
 
 @Entry
 @Component
@@ -11,11 +12,13 @@ struct ItemIndex {
   @State amount :number = 1
   @State value :string = ''
   @State showPanel: boolean = false
+  @State item:RecordItem = null
 
-  onPanelShow(){
+  onPanelShow(item:RecordItem){
     this.amount = 1
     this.value = ''
     this.showPanel = true
+    this.item = item
   }
 
 
@@ -31,7 +34,9 @@ struct ItemIndex {
         //3.1.顶部日期
         ItemPanelHeader()
         //3.2.项目信息卡片
-        ItemCard({amount:this.amount})
+        if(this.item){
+          ItemCard({amount:this.amount,item:$item})
+        }
         //3.3.数字键盘   用link传参的不能用this
         NumberKeyboard({amount:$amount,value: $value})
         //3.4.按钮

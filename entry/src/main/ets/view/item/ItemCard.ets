@@ -1,18 +1,20 @@
 import { CommonConstants } from '../../common/constants/CommonConstants'
+import RecordItem from '../../viewmodel/RecordItem'
 import NutrientStat from '../record/NutrientStat'
 @Component
 export default struct ItemCard {
 
   @Prop amount:number
+  @Link item:RecordItem
 
   build() {
     Column({space:CommonConstants.SPACE_8}){
       //1.图片
-      Image($r('app.media.toast'))
+      Image(this.item.image)
         .width(150)
       //2.名称
       Row(){
-        Text('全麦吐司')
+        Text(this.item.name)
           .fontWeight(CommonConstants.FONT_WEIGHT_700)
       }
       .backgroundColor($r('app.color.lightest_primary_color'))
@@ -23,10 +25,12 @@ export default struct ItemCard {
       .opacity(0.6)
       //3.营养素信息
       Row({space:CommonConstants.SPACE_8}){
-        this.NutrientInfo('热量(千卡)',91.0)
-        this.NutrientInfo('碳水(克)',15.5)
-        this.NutrientInfo('蛋白质(克)',4.4)
-        this.NutrientInfo('脂肪(克)',1.3)
+        this.NutrientInfo('热量(千卡)',this.item.calorie)
+        if(this.item.id < 10000){
+          this.NutrientInfo('碳水(克)',this.item.carbon)
+          this.NutrientInfo('蛋白质(克)',this.item.protein)
+          this.NutrientInfo('脂肪(克)',this.item.fat)
+        }
       }
       Divider()
         .width(CommonConstants.THOUSANDTH_940)
@@ -43,7 +47,7 @@ export default struct ItemCard {
             .color($r('app.color.primary_color'))
         }
         .width(150)
-        Text('片')
+        Text(this.item.unit)
           .fontColor($r('app.color.light_gray'))
           .fontWeight(CommonConstants.FONT_WEIGHT_600)
       }
