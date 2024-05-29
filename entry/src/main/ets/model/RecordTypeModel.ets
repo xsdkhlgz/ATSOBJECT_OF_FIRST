@@ -24,4 +24,4 @@ const RecordTypes:RecordType[] = [
   new RecordType(4,$r('app.string.workout'),$r("app.media.ic_workout")),
 ]
 
-export {RecordType,RecordTypeEnum}
+export {RecordTypes,RecordTypeEnum}

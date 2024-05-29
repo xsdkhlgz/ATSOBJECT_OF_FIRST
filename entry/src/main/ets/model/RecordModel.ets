@@ -19,12 +19,12 @@ const COLUMNS : ColumnInfo[] = [
   {name:'typeId',columnName:'type_id',type:ColumnType.LONG},
   {name:'itemId',columnName:'item_id',type:ColumnType.LONG},
   {name:'amount',columnName:'amount',type:ColumnType.DOUBLE},
-  {name:'creatTime',columnName:'creatTime',type:ColumnType.LONG},
+  {name:'createTime',columnName:'createTime',type:ColumnType.LONG},
 ]
 
 const TABLE_NAME = 'record'
 const ID_COLUMN = 'id'
-const Date_COLUMN = 'creatTime'
+const Date_COLUMN = 'createTime'
 
 class RecordModel{
   getCreateTableSql():string{
@@ -32,12 +32,12 @@ class RecordModel{
   }
 
   //增
-  insert(record:RecordPO){
+  insert(record:RecordPO): Promise<number>{
     return DbUtil.insert(TABLE_NAME,record,COLUMNS)
   }
 
   //删
-  deleteById(id:number){
+  deleteById(id:number): Promise<number>{
     //1.删除条件
     let predicates = new relationalStore.RdbPredicates(TABLE_NAME)
     predicates.equalTo(ID_COLUMN,id)
@@ -49,7 +49,7 @@ class RecordModel{
 
 
   //查
-  queryByDate(date:number){
+  queryByDate(date:number): Promise<RecordPO[]>{
     //1.查询条件
     let predicates = new relationalStore.RdbPredicates(TABLE_NAME)
     predicates.equalTo(Date_COLUMN,date)

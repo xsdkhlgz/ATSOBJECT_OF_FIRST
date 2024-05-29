@@ -43,7 +43,7 @@ class DbUtil{
   }
 
   //1，新增
-  insert(tableName:string,obj:any,columns:ColumnInfo[]){
+  insert(tableName:string,obj:any,columns:ColumnInfo[]): Promise<number>{
     return new Promise((resolve,reject) =>{
       //1.构建新增数据
       let value = this.buildValueBucket(obj,columns)
@@ -60,7 +60,7 @@ class DbUtil{
     })
   }
   //2.删除
-  delete(predicates:relationalStore.RdbPredicates){
+  delete(predicates:relationalStore.RdbPredicates): Promise<number>{
     return new Promise((resolve,reject) =>{
       //1.删除
       this.rdbStore.delete(predicates,(err,rows) =>{
@@ -123,6 +123,7 @@ class DbUtil{
       })
       //3.3将对象填入结果数组
       arr.push(obj)
+      Logger.debug('查询到数据：', JSON.stringify(obj))
     }
     return arr
   }

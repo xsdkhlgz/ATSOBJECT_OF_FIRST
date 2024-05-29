@@ -1,6 +1,9 @@
 import BreakpointType from '../../common/bean/BreakpointType'
 import BreakpointConstants from '../../common/constants/BreakpointConstants'
+import RecordService from '../../common/service/RecordService'
 import DateUtil from '../../common/utils/DateUtil'
+import RecordVO from '../../viewmodel/RecordVO'
+import StatsInfo from '../../viewmodel/StatsInfo'
 import CalorieStats from './CalorieStats'
 import DatePickDialog from './DatePickDialog'
 import NutrientStat from './NutrientStat'
@@ -18,6 +21,14 @@ export default struct CardStatistic {
   @StorageProp('currentBreakpoint') currentBreakpoint: string = BreakpointConstants.BREAKPOINT_SM
   //给初始化selectedDate赋值，时间为当天，这边需要过滤掉时分秒才能传过来赋值，所以使用了 DateUtil.beginTimeOfDay(new Date())
   @StorageProp('selectedDate') selectedDate: number = DateUtil.beginTimeOfDay(new Date())
+  @Consume @Watch('handleRecordChange') records:RecordVO[]
+
+  @State info:StatsInfo = new StatsInfo()
+
+  handleRecordChange(){
+   this.info = RecordService.calculateStatsInfo(this.records)
+  }
+
   controller : CustomDialogController = new CustomDialogController({
     //读取对话框里选中的日期
     builder:DatePickDialog({ selectedDate: new Date(this.selectedDate) })

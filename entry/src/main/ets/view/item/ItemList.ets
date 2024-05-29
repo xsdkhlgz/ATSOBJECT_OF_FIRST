@@ -19,11 +19,13 @@ export default struct ItemList {
         this.Type_of_Food(ItemModel.list(this.isFood))
       }
       .tabBar('全部')
-      ForEach(ItemModel.listItemGroupByCategory(this.isFood),(group:GroupInfo)=>{
-        TabContent(){
-          this.Type_of_Food(group.items)
-        }
-        .tabBar(group.type.name)
+      ForEach(
+        ItemModel.listItemGroupByCategory(this.isFood),
+         (group:GroupInfo<ItemCategory,RecordItem>)=>{
+          TabContent(){
+            this.Type_of_Food(group.items)
+          }
+          .tabBar(group.type.name)
       })
     }
     .barMode(BarMode.Scrollable)
