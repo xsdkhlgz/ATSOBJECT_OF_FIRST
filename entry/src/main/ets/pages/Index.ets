@@ -12,6 +12,15 @@ struct Index {
   private breakpointSystem:BreakpointSystem = new BreakpointSystem()
   @StorageProp('currentBreakpoint') currentBreakpoint: string = BreakpointConstants.BREAKPOINT_SM
 
+  @State isPageShow:boolean = false
+
+  onPageShow(){
+    this.isPageShow = true
+  }
+  onPageHide(){
+    this.isPageShow = false
+  }
+
   @Builder TabBarBuilder(title:string,image:ResourceStr,index:number){
     //column上下布局  ，row左右布局
     Column({space:5}){
@@ -56,7 +65,7 @@ struct Index {
       //标题1
       TabContent(){
         //饮食记录
-        RecordIndex()
+        RecordIndex({isPageShow:this.isPageShow})
       }
       .tabBar(this.TabBarBuilder('饮食',$r('app.media.ic_calendar'),0))
       //标题2

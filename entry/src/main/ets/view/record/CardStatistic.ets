@@ -21,8 +21,8 @@ export default struct CardStatistic {
   @StorageProp('currentBreakpoint') currentBreakpoint: string = BreakpointConstants.BREAKPOINT_SM
   //给初始化selectedDate赋值，时间为当天，这边需要过滤掉时分秒才能传过来赋值，所以使用了 DateUtil.beginTimeOfDay(new Date())
   @StorageProp('selectedDate') selectedDate: number = DateUtil.beginTimeOfDay(new Date())
-  @Consume @Watch('handleRecordChange') records:RecordVO[]
 
+  @Consume @Watch('handleRecordChange') records:RecordVO[]
   @State info:StatsInfo = new StatsInfo()
 
   handleRecordChange(){
@@ -52,10 +52,10 @@ export default struct CardStatistic {
       //统计信息
       Swiper(){
         //2.1.热量统计卡片
-        CalorieStats()
+        CalorieStats({intake:this.info.intake,expend:this.info.expend})
 
         //2.2.营养素统计
-        NutrientStat()
+        NutrientStat({carbon:this.info.carbon,protein:this.info.protein,fat:this.info.fat})
       }
       .width('100%')
       .backgroundColor(Color.White)

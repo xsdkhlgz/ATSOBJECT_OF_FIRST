@@ -2,11 +2,11 @@ import { CommonConstants } from '../../common/constants/CommonConstants'
 @Component
 export default struct NutrientStat {
   //碳水
-  carbon:number = 10
+  @Prop carbon:number
   //蛋白质
-  protein:number = 20
+  @Prop protein:number
   //脂肪
-  fat:number = 30
+  @Prop fat:number
   //推荐碳水摄入量
   recommendCarbon:number = CommonConstants.RECOMMEND_CARBON
   //推荐蛋白质摄入量
@@ -18,11 +18,11 @@ export default struct NutrientStat {
     //行式布局
     Row({space:6}){
       //1.碳水摄入
-      this.variousType('碳水摄入',this.carbon,this.recommendCarbon,'碳水化合物','green')
+      this.variousType({content:'碳水摄入',value:this.carbon,total:this.recommendCarbon,label:'碳水化合物',color:'green'})
       //2.蛋白质摄入
-      this.variousType('蛋白摄入',this.protein,this.recommendProtein,'蛋白质','red')
+      this.variousType({content:'蛋白摄入',value:this.protein,total:this.recommendProtein,label:'蛋白质',color:'red'})
       //3.脂肪摄入
-      this.variousType('脂肪摄入',this.fat,this.recommendFat,'脂肪','#ffffe71f')
+      this.variousType({content:'脂肪摄入',value:this.fat,total:this.recommendFat,label:'脂肪',color:'#ffffe71f'})
     }
     .width('100%')
     .justifyContent(FlexAlign.SpaceEvenly)
@@ -30,29 +30,31 @@ export default struct NutrientStat {
   }
 
   //环形进度条模板
-  @Builder variousType(content:string,value:number,total:number,label:string,color:ResourceStr){
+  @Builder variousType($$:{content:string,value:number,total:number,label:string,color:ResourceStr}){
     Column(){
       //进度条
       Stack(){
         //进度条所需数据
         Progress({
-          value:value,
-          total:total,
+          value:$$.value,
+          total:$$.total,
           type:ProgressType.Ring,
         })
           .width(95)
           .style({strokeWidth:CommonConstants.DEFAULT_8})
           //进度条颜色
-          .color(color)
+          .color($$.color)
         //2.2.传入各类数据
-        this.StatsBuilder(content,value,total)
+        this.StatsBuilder($$.content,$$.value,$$.total)
       }
-      Text(`${label}（克）`)
+      Text(`${$$.label}（克）`)
         .fontSize(12)
         .fontColor('#ffaca7a7')
         .padding({top:10})
     }
   }
+
+
   //进度条内内容模板
   @Builder StatsBuilder(label:string,value:number,total:number){
     Column({space:6}){

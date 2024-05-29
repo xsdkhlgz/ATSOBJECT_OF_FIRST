@@ -11,7 +11,7 @@ export default struct ItemList {
 
   showPanel: (item:RecordItem) => void
   //声明一个状态变量，因为传过来的参数主要取决于用户的需求
-  @State isFood:boolean = true
+  @Prop isFood:boolean
 
   build() {
     Tabs(){

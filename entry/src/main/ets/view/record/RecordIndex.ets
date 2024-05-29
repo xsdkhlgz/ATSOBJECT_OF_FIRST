@@ -15,6 +15,14 @@ export default struct RecordIndex{
   selectedDate: number = DateUtil.beginTimeOfDay(new Date())
   @Provide records:RecordVO[] = []
 
+  @Prop @Watch('handlePageShow') isPageShow:boolean
+
+  handlePageShow(){
+    if(this.isPageShow){
+      this.aboutToAppear()
+    }
+  }
+
   async aboutToAppear(){
     this.records = await RecordService.queryRecordByDate(this.selectedDate)
   }

@@ -1,10 +1,13 @@
 import router from '@ohos.router'
 import { CommonConstants } from '../common/constants/CommonConstants'
+import RecordService from '../common/service/RecordService'
+import { RecordTypeEnum, RecordTypes } from '../model/RecordTypeModel'
 import ItemCard from '../view/item/ItemCard'
 import ItemList from '../view/item/ItemList'
 import ItemPanelHeader from '../view/item/ItemPanelHeader'
 import NumberKeyboard from '../view/item/NumberKeyboard'
 import RecordItem from '../viewmodel/RecordItem'
+import RecordType from '../viewmodel/RecordType'
 
 @Entry
 @Component
@@ -13,12 +16,21 @@ struct ItemIndex {
   @State value :string = ''
   @State showPanel: boolean = false
   @State item:RecordItem = null
+  @State type:RecordType = RecordTypes[0]
+  @State isFood:boolean = true
 
   onPanelShow(item:RecordItem){
     this.amount = 1
     this.value = ''
     this.showPanel = true
     this.item = item
+  }
+  onPageShow(){
+    //1.获取跳转时的参数
+    let params:any = router.getParams()
+    //2.获取点击的饮食记录类型
+    this.type = params.type
+    this.isFood = this.type.id !== RecordTypeEnum.WORKOUT
   }
 
 
@@ -27,7 +39,7 @@ struct ItemIndex {
       //1.导航头部
       this.Header()
       //2.列表
-      ItemList({showPanel:this.onPanelShow.bind(this)})
+      ItemList({showPanel:this.onPanelShow.bind(this),isFood:this.isFood})
         .layoutWeight(1)
       //3.底部面板
       Panel(this.showPanel){
@@ -57,7 +69,15 @@ struct ItemIndex {
             .type(ButtonType.Normal)
             .borderRadius(10)
             .onClick(()=>{
-              this.showPanel = false
+              //1.持久化保存
+              RecordService.insert(this.type.id,this.item.id,this.amount)
+                .then(()=>{
+                  //2.关闭弹窗
+                  this.showPanel = false
+                })
+                .catch(()=>{
+                  console.log('保存失败')
+                })
             })
         }
         .width('100%')
@@ -82,7 +102,7 @@ struct ItemIndex {
           router.back()
         })
       Blank()
-      Text('早餐')
+      Text(this.type.name)
         .fontWeight(CommonConstants.FONT_WEIGHT_600)
         .fontSize(18)
     }
