@@ -1,4 +1,5 @@
 
+import relationalStore from '@ohos.data.relationalStore'
 import { ColumnInfo, ColumnType } from '../common/bean/ColumnInfo'
 import RecordPO from '../common/bean/RecordPO'
 import DbUtil from '../common/utils/DbUtil'
@@ -22,17 +23,39 @@ const COLUMNS : ColumnInfo[] = [
 ]
 
 const TABLE_NAME = 'record'
+const ID_COLUMN = 'id'
+const Date_COLUMN = 'creatTime'
 
 class RecordModel{
   getCreateTableSql():string{
     return CREATE_TABLE_SQL
   }
 
+  //增
   insert(record:RecordPO){
     return DbUtil.insert(TABLE_NAME,record,COLUMNS)
   }
 
-  dele
+  //删
+  deleteById(id:number){
+    //1.删除条件
+    let predicates = new relationalStore.RdbPredicates(TABLE_NAME)
+    predicates.equalTo(ID_COLUMN,id)
+    //2.删除
+    return DbUtil.delete(predicates)
+  }
+
+  //改
+
+
+  //查
+  queryByDate(date:number){
+    //1.查询条件
+    let predicates = new relationalStore.RdbPredicates(TABLE_NAME)
+    predicates.equalTo(Date_COLUMN,date)
+    //2.查询
+    return DbUtil.queryFortList(predicates,COLUMNS)
+  }
 }
 
 let recordModel = new RecordModel()
