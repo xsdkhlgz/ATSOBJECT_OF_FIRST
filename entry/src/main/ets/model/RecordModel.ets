@@ -1,5 +1,7 @@
 
 import { ColumnInfo, ColumnType } from '../common/bean/ColumnInfo'
+import RecordPO from '../common/bean/RecordPO'
+import DbUtil from '../common/utils/DbUtil'
 
 //数据库建表语句
 const CREATE_TABLE_SQL:string = `
@@ -19,13 +21,18 @@ const COLUMNS : ColumnInfo[] = [
   {name:'creatTime',columnName:'creatTime',type:ColumnType.LONG},
 ]
 
-
-
+const TABLE_NAME = 'record'
 
 class RecordModel{
   getCreateTableSql():string{
     return CREATE_TABLE_SQL
   }
+
+  insert(record:RecordPO){
+    return DbUtil.insert(TABLE_NAME,record,COLUMNS)
+  }
+
+  dele
 }
 
 let recordModel = new RecordModel()
