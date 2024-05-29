@@ -2,7 +2,7 @@
 import relationalStore from '@ohos.data.relationalStore'
 import common from '@ohos.app.ability.common'
 import Logger from './Logger'
-import { ColumnInfo } from '../bean/ColumnInfo'
+import { ColumnInfo, ColumnType } from '../bean/ColumnInfo'
 
 const DB_FILENAME:string = 'PracticalObject.db'
 
@@ -76,7 +76,7 @@ class DbUtil{
   }
 
   //3.查询
-  queryFortList(predicates:relationalStore.RdbPredicates,columns:ColumnInfo[]){
+  queryFortList<T>(predicates:relationalStore.RdbPredicates,columns:ColumnInfo[]):Promise<T[]>{
     return new Promise((resolve,reject) =>{
       this.rdbStore.query(predicates,columns.map(info => info.columnName),(err,result) =>{
         if(err){
@@ -84,12 +84,48 @@ class DbUtil{
           reject(err)
         }else {
           Logger.debug('查询成功！查询行数：',result.rowCount.toString())
-          resolve(result)
+          resolve(this.parseResultSet(result,columns))
         }
       })
     })
   }
 
+  parseResultSet<T>(result:relationalStore.ResultSet,columns:ColumnInfo[]):T[]{
+    //1.声明最终返回的结果
+    let arr = []
+    //2.判断是否有结果
+    if(result.rowCount <= 0){
+      return arr
+    }
+    //3.处理结果
+    while (!result.isAtFirstRow){
+      //3.1去下一行
+      result.goToNextRow()
+      //3.2解析这行数据，转为对象，查什么转什么
+      let obj = []
+      columns.forEach(info => {
+        let val = null
+        switch (info.type){
+          case ColumnType.LONG:
+          val = result.getLong(result.getColumnIndex(info.columnName))
+          break
+          case ColumnType.DOUBLE:
+            val = result.getDouble(result.getColumnIndex(info.columnName))
+            break
+          case ColumnType.STRING:
+            val = result.getString(result.getColumnIndex(info.columnName))
+            break
+          case ColumnType.BLOB:
+            val = result.getBlob(result.getColumnIndex(info.columnName))
+            break
+        }
+        obj[info.name] = val
+      })
+      //3.3将对象填入结果数组
+      arr.push(obj)
+    }
+    return arr
+  }
 
   buildValueBucket(obj:any,columns:ColumnInfo[]):relationalStore.ValuesBucket{
     let value = {}
