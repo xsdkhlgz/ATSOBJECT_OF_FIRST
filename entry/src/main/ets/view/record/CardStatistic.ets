@@ -52,10 +52,10 @@ export default struct CardStatistic {
       //统计信息
       Swiper(){
         //2.1.热量统计卡片
-        CalorieStats({intake:this.info.intake,expend:this.info.expend})
+        CalorieStats({intake: this.info.intake,expend: this.info.expend})
 
         //2.2.营养素统计
-        NutrientStat({carbon:this.info.carbon,protein:this.info.protein,fat:this.info.fat})
+        NutrientStat({carbon: this.info.carbon,protein: this.info.protein,fat: this.info.fat})
       }
       .width('100%')
       .backgroundColor(Color.White)

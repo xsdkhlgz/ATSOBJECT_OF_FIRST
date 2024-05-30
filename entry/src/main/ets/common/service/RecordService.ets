@@ -17,14 +17,14 @@ class RecordService{
    * @param amount 记录项数量（食物量、运动时长）
    * @returns 新增数量
    */
-  insert(typeId:number,itemId:number,amount:number){
+  insert(typeId:number,itemId:number,amount:number): Promise<number>{
     //1.获取时间
     let createTime = (AppStorage.Get('selectedDate') || DateUtil.beginTimeOfDay(new Date())) as number
     //2.新增
     return RecordModel.insert({typeId,itemId,amount,createTime})
   }
 
-  deleteById(id:number){
+  deleteById(id:number): Promise<number>{
     return RecordModel.deleteById(id)
   }
 
@@ -81,11 +81,8 @@ class RecordService{
       //2.2.计算该组的总热量
       groups[record.typeId].calorie += record.calorit
     })
-
     return groups
   }
-
-
 }
 
 let recordService = new RecordService()

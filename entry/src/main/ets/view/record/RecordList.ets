@@ -95,13 +95,12 @@ export default struct RecordList {
   @Builder deleteButton(){
     Image($r('app.media.ic_public_delete_filled'))
       .width(20)
-      .height(20)
       .fillColor(Color.Red)
       .margin(5)
   }
 
 
-//1.分组标题列表模板
+/*//1.分组标题列表模板
   @Builder FoodType(meal:string,range1:number = 423,range2:number = 592,energy:number,){
     Column(){
       Row({space:4}){
@@ -128,26 +127,9 @@ export default struct RecordList {
     .backgroundColor(Color.White)
     .borderRadius(18)
     .padding(12)
-  }
+  }*/
 
-  //2.组内记录列表模板
-  @Builder List_of_Team(){
-    Row({space:CommonConstants.SPACE_6}){
-      Image($r('app.media.toast'))
-        .width(50)
-      Column({space:CommonConstants.SPACE_4}){
-        Text('全麦吐司')
-          .fontWeight(CommonConstants.FONT_WEIGHT_500)
-        Text('1片')
-          .grayText()
-      }
-      Blank()
-      Text('91千卡')
-        .grayText()
-    }
-    .width('100%')
-    .padding(6)
-  }
+
   }
 
 

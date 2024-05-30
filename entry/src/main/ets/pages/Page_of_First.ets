@@ -51,13 +51,14 @@ struct Page_of_First{
      if(this.account ==='' ||this.password ==='') {
        this.Interface_Login('账号密码不能为空')
      }else {
-       this.isShowProgress = true;
+      /* this.isShowProgress = true;
        if(this.timeOutId=== -1){
          setTimeout(()=>{
            this.isShowProgress = false;
            router.pushUrl({url:'pages/Index'});
          })
-       }
+       }*/
+       router.pushUrl({url:'pages/Index'});
      }
   }
 
