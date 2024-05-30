@@ -53,9 +53,8 @@ struct Page_of_First{
      }else {
        this.isShowProgress = true;
        if(this.timeOutId=== -1){
-         this.timeOutId = setTimeout(()=>{
+         setTimeout(()=>{
            this.isShowProgress = false;
-           this.timeOutId = -1;
            router.pushUrl({url:'pages/Index'});
          })
        }

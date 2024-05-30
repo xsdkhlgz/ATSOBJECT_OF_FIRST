@@ -75,9 +75,6 @@ struct ItemIndex {
                   //2.关闭弹窗
                   this.showPanel = false
                 })
-                .catch(()=>{
-                  console.log('保存失败')
-                })
             })
         }
         .width('100%')
